@@ -70,7 +70,11 @@ class Sigfox(object):
 
     def request(self, method, route, params=None, **kwargs):
         """
-        Base request method that can be used if a route is not
+        Base request method that can be used if a route is not configured in this client.
+        This method handles the pagination and perform the query using a `request.request <https://requests.readthedocs.io/en/latest/api/#requests.request>`_
+
+        It returns the `data` stored in the response and update the `next` method if there is a pagination.
+
         """
         url = self._build_url(route)
         try:
