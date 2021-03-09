@@ -16,6 +16,7 @@ from pysigfox import (
     SigfoxBadStatusError,
     from_ms_timestamp,
     to_ms_timestamp,
+    to_bytearray,
 )
 
 DEVICES = {
@@ -106,6 +107,30 @@ def test_sigfox():
         with pytest.raises(SigfoxBadStatusError):
             client.devices()
 
+    with requests_mock.mock() as mock:
+        mock.get(
+            "https://api.sigfox.com/v2/devices/device_1/messages",
+            json={
+                "data": [],
+                "paging": {
+                    "next": "https://api.sigfox.com/v2/devices/device_1/messages?page=2"
+                },
+            },
+        )
+        client.request("GET", "devices/device_1/messages")
+
+    with requests_mock.mock() as mock:
+        mock.get(
+            "https://api.sigfox.com/v2/devices/device_1/messages",
+            json={
+                "data": [],
+                "paging": {
+                    "next": "https://api.sigfox.com/v2/devices/device_1/messages?"
+                },
+            },
+        )
+        client.request("GET", "devices/device_1/messages")
+
 
 def test_utils():
     timestamp = 1_613_984_321_000
@@ -113,3 +138,6 @@ def test_utils():
     my_dt = datetime.datetime(year=2021, month=2, day=22, hour=8, minute=58, second=41)
     assert dt == my_dt
     assert to_ms_timestamp(my_dt) == timestamp
+
+    value = "010ea00cc764"
+    assert to_bytearray(value).hex() == value
