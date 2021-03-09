@@ -11,4 +11,4 @@ Inspired from [python-sigfox-backend-api](https://github.com/mjuenema/python-sig
 ## Resources
 
 - [Official sigfox API documentation](https://support.sigfox.com/apidocs)
-- [Documentation](https://inuse-pysigfox.readthedocs.io/en/latest/)
+- [Documentation](https://inuse-pysigfox.readthedocs-hosted.com/en/latest/)
