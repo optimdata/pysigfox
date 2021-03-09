@@ -3,3 +3,7 @@
 ### 0.1.0
 
 - First version
+
+### 0.1.1
+
+- Fix cast to integer for datetime.datetime to timestamps in milliseconds
