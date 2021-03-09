@@ -139,5 +139,25 @@ def test_utils():
     assert dt == my_dt
     assert to_ms_timestamp(my_dt) == timestamp
 
+    dt = from_ms_timestamp(timestamp)
+    dt = dt.replace(tzinfo=datetime.timezone(datetime.timedelta(hours=4)))
+    timestamp = to_ms_timestamp(dt)
+
+    my_dt = datetime.datetime(
+        year=2021,
+        month=2,
+        day=22,
+        hour=8,
+        minute=58,
+        second=41,
+        tzinfo=datetime.timezone(datetime.timedelta(hours=4)),
+    )
+    assert dt == my_dt
+    assert to_ms_timestamp(my_dt) == timestamp
+
     value = "010ea00cc764"
     assert to_bytearray(value).hex() == value
+
+    assert to_ms_timestamp(None) is None
+    assert from_ms_timestamp(None) is None
+    assert to_bytearray(None) is None
