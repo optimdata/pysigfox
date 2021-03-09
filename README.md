@@ -4,7 +4,7 @@
 
 # pysigfox
 
-`pysigfox` is an unofficial client for the [sigfox API](https://support.sigfox.com/apidocs). 
+`pysigfox` is an unofficial client for the V2 [sigfox API](https://support.sigfox.com/apidocs). 
 
 Inspired from [python-sigfox-backend-api](https://github.com/mjuenema/python-sigfox-backend-api).
 

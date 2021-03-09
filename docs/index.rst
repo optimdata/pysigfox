@@ -1,4 +1,4 @@
-Welcome to pysigofx's documentation!
+Welcome to pysigfox's documentation!
 =========================================
 
 `pysigfox` is an unofficial client for the `Sigfox v2 api <https://support.sigfox.com/apidocs>`_.
