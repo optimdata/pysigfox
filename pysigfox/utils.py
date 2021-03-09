@@ -7,19 +7,10 @@ def to_ms_timestamp(value):
     Convert datetime to timestamp in milliseconds
     """
     if value and isinstance(value, datetime.datetime):
-        value = to_timestamp(value) * 1000
-    return value
-
-
-def to_timestamp(value):
-    """
-    Convert datetime to timestamp
-    """
-    if value and isinstance(value, datetime.datetime):
         if value.tzinfo is None:
             # naive UTC time
             value = value.replace(tzinfo=datetime.timezone.utc)
-        value = value.timestamp()
+        value = int(value.timestamp() * 1000)
     return value
 
 
@@ -28,16 +19,7 @@ def from_ms_timestamp(value):
     Convert timestamp in milliseconds to datetime
     """
     if value and not isinstance(value, datetime.datetime):
-        value = from_timestamp(value / 1000)
-    return value
-
-
-def from_timestamp(value):
-    """
-    Convert timestamp to datetime
-    """
-    if value and not isinstance(value, datetime.datetime):
-        value = datetime.datetime.utcfromtimestamp(value)
+        value = datetime.datetime.utcfromtimestamp(value / 1000)
     return value
 
 

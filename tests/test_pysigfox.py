@@ -137,7 +137,7 @@ def test_utils():
     dt = from_ms_timestamp(timestamp)
     my_dt = datetime.datetime(year=2021, month=2, day=22, hour=8, minute=58, second=41)
     assert dt == my_dt
-    assert to_ms_timestamp(my_dt) == timestamp
+    assert str(to_ms_timestamp(my_dt)) == str(timestamp)
 
     dt = from_ms_timestamp(timestamp)
     dt = dt.replace(tzinfo=datetime.timezone(datetime.timedelta(hours=4)))
@@ -153,7 +153,7 @@ def test_utils():
         tzinfo=datetime.timezone(datetime.timedelta(hours=4)),
     )
     assert dt == my_dt
-    assert to_ms_timestamp(my_dt) == timestamp
+    assert str(to_ms_timestamp(my_dt)) == str(timestamp)
 
     value = "010ea00cc764"
     assert to_bytearray(value).hex() == value
