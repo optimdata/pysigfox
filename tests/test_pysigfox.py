@@ -56,10 +56,10 @@ DEVICE_MESSAGES = {
 
 USER = {
     "id": "test",
-    "group": {"id": "1", "name": "group",},
+    "group": {"id": "1", "name": "group"},
     "name": "test_name",
     "timezone": "UTC",
-    "creationTime": 1613489692898,
+    "creationTime": 1_613_489_692_898,
 }
 
 
@@ -80,7 +80,7 @@ class SigfoxMocker(requests_mock.mock):
 
         # devices
         self.get(
-            "https://api.sigfox.com/v2/devices", json=DEVICES, status_code=status_code,
+            "https://api.sigfox.com/v2/devices", json=DEVICES, status_code=status_code
         )
 
         # device messages
