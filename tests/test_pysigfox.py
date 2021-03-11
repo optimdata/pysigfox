@@ -17,6 +17,7 @@ from pysigfox import (
     from_ms_timestamp,
     to_ms_timestamp,
     to_bytearray,
+    constants,
 )
 
 DEVICES = {
@@ -53,6 +54,14 @@ DEVICE_MESSAGES = {
     "paging": {},
 }
 
+USER = {
+    "id": "test",
+    "group": {"id": "1", "name": "group",},
+    "name": "test_name",
+    "timezone": "UTC",
+    "creationTime": 1613489692898,
+}
+
 
 # sigfox API mocker and pollux mocker
 class SigfoxMocker(requests_mock.mock):
@@ -84,6 +93,10 @@ class SigfoxMocker(requests_mock.mock):
         device_matcher = re.compile(r"^(https://api\.sigfox\.com/v2/devices/)(\w+)$")
         self.get(device_matcher, json={}, status_code=status_code)
 
+        # user
+        user_matcher = re.compile(r"^(https://api\.sigfox\.com/v2/api-users/)(\w+)$")
+        self.get(user_matcher, json=USER, status_code=status_code)
+
 
 def test_sigfox():
     client = Sigfox(username="test", password="test")
@@ -92,6 +105,8 @@ def test_sigfox():
         assert len(client.devices(list_all=True)) == 1
         assert len(client.device_messages("device_1", list_all=True)) == 4
         assert client.device("device_1") == {}
+        assert client.api_user()["name"] == "test_name"
+        assert client.api_user("test")["name"] == "test_name"
     with SigfoxMocker():
         assert len(client.device_messages("device_1")) == 2
 
@@ -157,3 +172,9 @@ def test_utils():
     assert to_ms_timestamp(None) is None
     assert from_ms_timestamp(None) is None
     assert to_bytearray(None) is None
+
+
+def test_constants():
+    assert len(constants.LQIS) == 5
+    assert len(constants.COM_STATES) == 6
+    assert len(constants.STATES) == 8

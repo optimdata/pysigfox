@@ -143,6 +143,16 @@ class Sigfox(object):
         """
         return self.request("GET", f"devices/{device_code}", **kwargs)
 
+    def api_user(self, api_user_id=None, **kwargs):
+        """
+        `Retrieve information about a given API user. <https://support.sigfox.com/apidocs#operation/getApiUser>`_
+
+        :param str api_user_id: The API user identifier. If none we use the api_user_id used for this client.
+        """
+        if api_user_id is None:
+            api_user_id = self.username
+        return self.request("GET", f"api-users/{api_user_id}", **kwargs)
+
     def device_messages(
         self, device_code, list_all=False, since=None, before=None, **kwargs
     ):

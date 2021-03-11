@@ -11,3 +11,7 @@
 ### 0.1.2
 
 - Add constants for device end points
+
+### 0.1.3
+
+- Add api user end point
