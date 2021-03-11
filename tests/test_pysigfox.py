@@ -56,9 +56,9 @@ DEVICE_MESSAGES = {
 
 # sigfox API mocker and pollux mocker
 class SigfoxMocker(requests_mock.mock):
-    def __init__(self, messages_status_code=200, *args, **kwargs):
+    def __init__(self, status_code=200, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.raise_error = messages_status_code
+        self.raise_error = status_code
         self.call_nb = 0
 
         def device_messages(request, context):
@@ -71,22 +71,18 @@ class SigfoxMocker(requests_mock.mock):
 
         # devices
         self.get(
-            "https://api.sigfox.com/v2/devices",
-            json=DEVICES,
-            status_code=messages_status_code,
+            "https://api.sigfox.com/v2/devices", json=DEVICES, status_code=status_code,
         )
 
         # device messages
         message_matcher = re.compile(
             r"^(https://api\.sigfox\.com/v2/devices/)(.*)(/messages)(.*)$"
         )
-        self.get(
-            message_matcher, json=device_messages, status_code=messages_status_code
-        )
+        self.get(message_matcher, json=device_messages, status_code=status_code)
 
         # device
-        message_matcher = re.compile(r"^(https://api\.sigfox\.com/v2/devices/)(\w+)$")
-        self.get(message_matcher, json={}, status_code=messages_status_code)
+        device_matcher = re.compile(r"^(https://api\.sigfox\.com/v2/devices/)(\w+)$")
+        self.get(device_matcher, json={}, status_code=status_code)
 
 
 def test_sigfox():
@@ -99,11 +95,11 @@ def test_sigfox():
     with SigfoxMocker():
         assert len(client.device_messages("device_1")) == 2
 
-    with SigfoxMocker(messages_status_code=429):
+    with SigfoxMocker(status_code=429):
         with pytest.raises(SigfoxTooManyRequestsError):
             client.devices()
 
-    with SigfoxMocker(messages_status_code=404):
+    with SigfoxMocker(status_code=404):
         with pytest.raises(SigfoxBadStatusError):
             client.devices()
 
