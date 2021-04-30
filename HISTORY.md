@@ -15,3 +15,7 @@
 ### 0.1.3
 
 - Add api user end point
+
+### 0.1.4
+
+- Add global timeout
