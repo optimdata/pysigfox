@@ -55,10 +55,11 @@ class Sigfox(object):
         # The code here is only for documentation purposes.
         pass  # pragma: no cover
 
-    def __init__(self, username, password):
+    def __init__(self, username, password, timeout=None):
         self.account = username
         self.username = username
         self.password = password
+        self.timeout = timeout
         self.session = requests.Session()
         self.session.auth = (username, password)
         self.base_url = "https://api.sigfox.com/v2/"
@@ -77,6 +78,7 @@ class Sigfox(object):
 
         """
         url = self._build_url(route)
+        kwargs.setdefault("timeout", self.timeout)
         try:
             response = self.session.request(
                 method=method, url=url, params=params, **kwargs
